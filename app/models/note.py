@@ -1,8 +1,8 @@
 # model definition for notes
-from typing import Optional
-from pydantic import BaseModel 
+import uuid
+from pydantic import BaseModel, UUID4
 
 class Note(BaseModel):
-    id: int
+    id: UUID4 = uuid.uuid4()
     note_title: str = ""
-    note_text: Optional[str] = None
+    note_text: str = ""
