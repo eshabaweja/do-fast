@@ -1,4 +1,4 @@
-from fastapi import FastAPI, status,HTTPException
+from fastapi import FastAPI, status, HTTPException, Response
 from fastapi.params import Body
 from models.note import Note
 import uuid
@@ -35,12 +35,15 @@ def read_note(id: str):
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Post with id: {id} was not found.")
 
 
+@app.delete("/notes/{id}",status_code=status.HTTP_204_NO_CONTENT)
+def delete_note(id: str):
+    for idx, note_dict in enumerate(my_notes):
+        if note_dict["id"] == id:
+            my_notes.pop(idx)
+            return Response(status_code=status.HTTP_204_NO_CONTENT)
+    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Post with id: {id} was not found.")
+
+
 @app.put("/notes/{id}")
 def update_note(id: str):
     pass
-
-
-@app.delete("/notes/{id}")
-def delete_note(id: str):
-    pass
-
