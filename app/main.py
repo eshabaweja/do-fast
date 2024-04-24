@@ -45,5 +45,10 @@ def delete_note(id: str):
 
 
 @app.put("/notes/{id}")
-def update_note(id: str):
-    pass
+def update_note(id: str, note:Note):
+    for idx, note_dict in enumerate(my_notes):
+        if note_dict["id"] == id:
+            note.id = id
+            my_notes[idx] = note.dict()
+            return Response(status_code=status.HTTP_204_NO_CONTENT)
+    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Post with id: {id} was not found.")
